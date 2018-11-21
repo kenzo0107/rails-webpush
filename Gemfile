@@ -15,6 +15,9 @@ gem 'puma'
 gem 'sass-rails'
 gem 'uglifier'
 
+gem 'serviceworker-rails'
+gem 'webpush'
+
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'rubocop', require: false
