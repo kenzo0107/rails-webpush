@@ -1,0 +1,28 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8mb4
+  charset: utf8mb4
+  collation: utf8mb4_general_ci
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  variables:
+    # Asia/Tokyo だとタイムゾーン定義を用意する必要があるので、時間で指定
+    time_zone: '+09:00'
+  port: 3306
+  database: hoge
+
+development:
+  <<: *default
+  username: root
+  host: db
+
+test:
+  <<: *default
+  username: root
+  host: <%= ENV['CIRCLECI'] == 'true' ? '127.0.0.1' : 'db' %>
+  database: hoge_test
+
+production:
+  <<: *default
+  database: app_production
+  username: app
+  password: <%= ENV['APP_DATABASE_PASSWORD'] %>

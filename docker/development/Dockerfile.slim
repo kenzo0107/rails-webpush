@@ -1,0 +1,30 @@
+# alpineだと↓の問題が出たためひとまず回避
+# https://github.com/docker-library/ruby/issues/196
+FROM ruby:2.5.1-slim
+LABEL maintainer="kiyotaka.sasaya@medpeer.co.jp"
+
+ENV LANG C.UTF-8
+
+RUN apt update && \
+    apt remove cmdtest && \
+    apt install -y --no-install-recommends \
+      build-essential mysql-client default-libmysqlclient-dev \
+      tzdata less file imagemagick chromium chromedriver wget curl gnupg vim && \
+    curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
+    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
+    apt update && \
+    apt install -y --no-install-recommends nodejs yarn && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+
+ENV DOCKERIZE_VERSION v0.6.1
+RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+
+ENV APP_PATH /usr/src/app
+WORKDIR $APP_PATH
+
+CMD ["docker/development/entrypoint.sh"]

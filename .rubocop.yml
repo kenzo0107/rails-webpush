@@ -1,0 +1,54 @@
+AllCops:
+  Exclude:
+    - db/schema.rb
+    - db/migrate/*
+    - node_modules/**/*
+    - vendor/**/*
+  TargetRubyVersion: 2.5
+
+Metrics/BlockLength:
+  ExcludedMethods:
+    - class_eval
+    - configure
+    - included
+  Exclude:
+    - config/routes.rb
+    - spec/**/*_spec.rb
+    - spec/factories/*
+    - lib/capistrano/tasks/*
+
+Metrics/LineLength:
+  Max: 120
+  Exclude:
+    - lib/capistrano/tasks/*
+
+Metrics/ModuleLength:
+  Max: 130
+
+Metrics/ParameterLists:
+  CountKeywordArgs: false
+
+Naming/UncommunicativeMethodParamName:
+  AllowedNames:
+    - 'io'
+    - 'id'
+    - 'to'
+    - 'by'
+    - 'on'
+    - 'in'
+    - 'at'
+
+Style/AsciiComments:
+  Enabled: false
+
+# The `context_dependent` style checks that the last parameter
+# doesn't have braces around it, but requires braces if the
+# second to last parameter is also a hash literal.
+Style/BracesAroundHashParameters:
+  EnforcedStyle: context_dependent
+
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
+
+Style/Documentation:
+  Enabled: false
