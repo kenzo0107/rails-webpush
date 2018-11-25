@@ -39,6 +39,7 @@ services:
       - ./docker/development/nginx/ssl:/etc/nginx/ssl
     ports:
       - 443:443
+      - 8888:80
     links:
       - web
 
