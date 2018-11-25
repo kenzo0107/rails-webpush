@@ -13,6 +13,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'mysql2'
 gem 'puma'
 gem 'sass-rails'
+gem 'sorcery'
 gem 'uglifier'
 
 gem 'serviceworker-rails'
