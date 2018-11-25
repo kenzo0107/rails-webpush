@@ -16,10 +16,25 @@
     <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
     <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
 
-  <link rel="manifest" href="/manifest.json" />
-<meta name="apple-mobile-web-app-capable" content="yes"></head>
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+  </head>
 
   <body>
+    <div id="nav">
+      <% if current_user %>
+        ユーザ: <%= link_to current_user.email, edit_user_path(current_user.id) %>
+        <%= link_to 'ログアウト', :logout, method: :post %>
+      <% else %>
+        <%= link_to 'ユーザ登録', new_user_path %> |
+        <%= link_to 'ログアウト', :login %>
+      <% end %>
+    </div>
+    <div>
+      <p id="notice"><%= flash[:notice] %></p>
+      <p id="alert"><%= flash[:alert] %></p>
+    </div>
+
     <%= yield %>
   </body>
 </html>
