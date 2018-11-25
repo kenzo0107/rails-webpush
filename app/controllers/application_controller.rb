@@ -6,11 +6,12 @@ class ApplicationController < ActionController::Base
 
   def vapid_public_key
     vpk = Rails.application.credentials.dig(Rails.env.to_sym, :vapid_public_key)
-    @decoded_vapid_public_key ||= Base64.urlsafe_decode64(vpk).bytes
+    Base64.urlsafe_decode64(vpk).bytes
   end
 
   private
-    def not_authenticated
-      redirect_to login_path, alert: 'ログインしてください'
-    end
+
+  def not_authenticated
+    redirect_to login_path, alert: 'ログインしてください'
+  end
 end

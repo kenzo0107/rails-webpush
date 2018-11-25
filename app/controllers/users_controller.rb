@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class UsersController < ApplicationController
-  skip_before_action :require_login, only: [:new, :create]
+  skip_before_action :require_login, only: %i[new create]
 
   # GET /users/1
   def show
@@ -43,8 +45,8 @@ class UsersController < ApplicationController
   end
 
   private
-    # Only allow a trusted parameter "white list" through.
-    def user_params
-      params.require(:user).permit(:email, :password, :password_confirmation)
-    end
+
+  def user_params
+    params.require(:user).permit(:email, :password, :password_confirmation)
+  end
 end

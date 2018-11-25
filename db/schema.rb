@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_25_051401) do
+ActiveRecord::Schema.define(version: 2018_11_25_073936) do
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "email", null: false
@@ -21,4 +21,15 @@ ActiveRecord::Schema.define(version: 2018_11_25_051401) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  create_table "webpush_subscriptions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "endpoint", null: false
+    t.string "p256dh", null: false
+    t.string "auth", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_webpush_subscriptions_on_user_id"
+  end
+
+  add_foreign_key "webpush_subscriptions", "users"
 end

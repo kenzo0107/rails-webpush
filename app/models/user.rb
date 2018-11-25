@@ -1,4 +1,8 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
+  has_many :webpush_subscriptions, dependent: :destroy
+
   authenticates_with_sorcery!
 
   validates :email, presence: true

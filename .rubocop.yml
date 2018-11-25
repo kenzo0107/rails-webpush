@@ -4,7 +4,16 @@ AllCops:
     - db/migrate/*
     - node_modules/**/*
     - vendor/**/*
+    - config/initializers/sorcery.rb
+    - bin/setup
+    - bin/*
   TargetRubyVersion: 2.5
+
+Metrics/MethodLength:
+  Max: 20
+
+Metrics/AbcSize:
+  Max: 25
 
 Metrics/BlockLength:
   ExcludedMethods:
@@ -48,7 +57,7 @@ Style/BracesAroundHashParameters:
   EnforcedStyle: context_dependent
 
 Style/ClassAndModuleChildren:
-  EnforcedStyle: compact
+  Enabled: false
 
 Style/Documentation:
   Enabled: false
