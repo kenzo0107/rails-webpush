@@ -9,9 +9,7 @@ let swRegistration = null;
 if ('serviceWorker' in navigator && 'PushManager' in window) {
   console.log('Service Worker and Push is supported');
 
-  // navigator.serviceWorker.register('/serviceworker.js', { scope: './' })
-
-  navigator.serviceWorker.register('/serviceworker.js')
+  navigator.serviceWorker.register('/serviceworker.js', { scope: '/' })
     .then(function(swReg) {
       console.log('[Companion]', 'Service worker registered!', swReg);
 
@@ -103,7 +101,7 @@ function updateBtn() {
   if (Notification.permission === 'denied') {
     pushButton.textContent = 'プッシュ通知をブロックしています';
     pushButton.disabled = true;
-    // updateSubscriptionOnServer(null);
+    updateSubscriptionOnServer(null);
     return;
   }
 
@@ -117,22 +115,33 @@ function updateBtn() {
 }
 
 function updateSubscriptionOnServer(subscription) {
-  console.log(subscription);
-  var params = {
-    subscription: subscription.toJSON()
-  }
-
-  console.log(params);
-
-  // TODO サーバサイドに subscription 情報を POST 処理
-
   const subscriptionJson = document.querySelector('.js-subscription-json');
   const subscriptionDetails =
     document.querySelector('.js-subscription-details');
 
   if (subscription) {
-    subscriptionJson.textContent = JSON.stringify(subscription);
-    subscriptionDetails.classList.remove('is-invisible');
+    pushButton.disabled = true;
+
+    var params = {
+      subscription: subscription.toJSON(),
+    }
+
+    $.ajax({
+      type: 'POST',
+      cache: true,
+      url: '/webpush_subscriptions',
+      data: params,
+      timeout: 10000,
+      success: function (data) {
+        console.log("success");
+        subscriptionJson.textContent = JSON.stringify(subscription);
+        subscriptionDetails.classList.remove('is-invisible');
+      },
+      error: function (data) {
+        console.log("error");
+        subscriptionDetails.classList.add('is-invisible');
+      }
+    });
   } else {
     subscriptionDetails.classList.add('is-invisible');
   }
