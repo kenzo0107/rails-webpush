@@ -9,11 +9,9 @@ class MessagesController < ApplicationController
 
   # GET /messages/1
   def show
-    p params
     id = params['id']
     if params['authenticity_token']
       m = Message.find(id)
-      p "m.title:"+m.title, "m.message:"+m.message, "m.link"+m.link
       ws = WebpushService.new
       ws.set_title m.title
       ws.set_message m.message
