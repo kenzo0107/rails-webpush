@@ -1,19 +1,28 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Email:</strong>
-  <%= @user.email %>
-</p>
+<table class="table table-bordered table-hover table-striped">
+  <thead>
+    <tr>
+      <td>Email</td>
+      <td><%= @user.email %></td>
+    </tr>
+  </thead>
 
-<p>
-  <strong>Created At:</strong>
-  <%= @user.created_at %>
-</p>
+  <thead>
+    <tr>
+      <td>登録日時</td>
+      <td><%= @user.created_at %></td>
+    </tr>
+  </thead>
 
-<p>
-  <strong>Updated At:</strong>
-  <%= @user.updated_at %>
-</p>
+  <thead>
+    <tr>
+      <td>更新日時</td>
+      <td><%= @user.updated_at %></td>
+    </tr>
+  </thead>
+</table>
+
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', '/' %>

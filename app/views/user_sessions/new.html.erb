@@ -1,8 +1,4 @@
-<header>
-  <h1>ログインページ</h1>
-</header>
-
-<p>Find me in app/views/user_sessions/new.html.erb</p>
+<h1>ログインページ</h1>
 
 <%= form_tag user_sessions_path, method: :post do %>
   <div class="field">
@@ -14,7 +10,7 @@
     <%= password_field_tag :password %>
   </div>
   <div class="actions">
-    <%= submit_tag "Login" %>
+    <p><%= submit_tag "Login" %></p>
   </div>
 <% end %>
 

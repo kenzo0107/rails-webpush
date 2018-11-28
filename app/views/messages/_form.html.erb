@@ -14,36 +14,36 @@
   <table class="table table-bordered table-hover table-striped">
     <thead>
       <tr>
-        <th><%= form.label :title %></th>
+        <th><%= form.label 'タイトル' %></th>
         <th><%= form.text_field :title, size:100 %></th>
       </tr>
     </thead>
 
     <thead>
       <tr>
-        <th><%= form.label :message %></th>
+        <th><%= form.label '送信メッセージ' %></th>
         <th><%= form.text_field :message, size:100 %></th>
       </tr>
     </thead>
 
     <thead>
       <tr>
-        <th><%= form.label :link %></th>
+        <th><%= form.label 'クリック時の遷移先リンク' %></th>
         <th><%= form.text_field :link, size:100 %></th>
       </tr>
     </thead>
 
     <thead>
       <tr>
-        <th><%= form.label :send_reservation_at %></th>
-        <th><%= form.text_field :send_reservation_at, size:100 %></th>
+        <th><%= form.label '送信予約日時' %></th>
+        <th><%= form.datetime_field :send_reservation_at, size:100 %></th>
       </tr>
     </thead>
 
     <thead>
       <tr>
-        <th><%= form.label :status %></th>
-        <th><%= form.text_field :status, size:100 %></th>
+        <th><%= form.label 'ステータス (0:未送信 1:テスト送信済み 2:ユーザ送信済み)' %></th>
+        <th><%= form.text_field :status %></th>
       </tr>
     </thead>
   </table>
