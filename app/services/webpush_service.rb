@@ -41,14 +41,14 @@ class WebpushService
         expiration: 1 * 60 * 60
       },
       message: {
-        icon: 'https://example.com/images/demos/icon-512x512.png',
+        icon: 'https://ishicome-cdn.medpeer.jp/assets/favicon/mstile-for-310x310-df4a2999d2241a9d3d6cf5070af29eb8a3081c6a417334bd68d96bc4b9425b4c.png',
         title: @title,
-        body: @message
-        # target_url: @link
+        body: @message,
+        link: @link
       }.to_json
     )
-  rescue Pusher::Error => e
-    logger.error e
+  rescue => e
+    Rails.logger.error e
   end
 
   private
