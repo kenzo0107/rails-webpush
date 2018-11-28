@@ -5,14 +5,27 @@ class WebpushService
     @user_id = user_id
   end
 
-  def webpush_clients(message)
+  def set_title(title)
+    @title = title || '運営事務局'
+  end
+
+  def set_message(message)
+    @message = message
+  end
+
+  def set_link(link)
+    @link = link || '/'
+  end
+
+  def webpush_clients
     webpush_subscriptions.each do |webpush_subscription|
-      webpush webpush_subscription, message
+      webpush webpush_subscription
     end
   end
 
-  def webpush(webpush_subscription, message)
-    if message.nil?
+  def webpush(webpush_subscription)
+    # message が設定されてなければ、停止
+    if @message.nil?
       return
     end
     vapid_public_key = Rails.application.credentials.dig(Rails.env.to_sym, :vapid_public_key)
@@ -29,9 +42,9 @@ class WebpushService
       },
       message: {
         icon: 'https://example.com/images/demos/icon-512x512.png',
-        title: '運営事務局',
-        body: message,
-        target_url: 'http://localhost:8888/'
+        title: @title,
+        body: @message
+        # target_url: @link
       }.to_json
     )
   rescue Pusher::Error => e

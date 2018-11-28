@@ -1,4 +1,5 @@
 FROM ruby:2.5.1-alpine
+LABEL maintainer="kiyotaka.sasaya@medpeer.co.jp"
 
 # dockerize用
 RUN echo http://dl-cdn.alpinelinux.org/alpine/edge/testing/ >> /etc/apk/repositories

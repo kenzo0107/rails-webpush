@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :messages
+  post 'messages/:id' => 'messages#show'
+
   resources :user_sessions
   resources :users, only: %w[new create show]
   resource :user, only: %w[edit update]

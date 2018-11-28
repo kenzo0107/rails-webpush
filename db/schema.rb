@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_25_073936) do
+ActiveRecord::Schema.define(version: 2018_11_28_082516) do
+
+  create_table "messages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "message", null: false
+    t.string "link", null: false
+    t.datetime "send_reservation_at"
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "email", null: false
@@ -26,6 +36,7 @@ ActiveRecord::Schema.define(version: 2018_11_25_073936) do
     t.string "endpoint", null: false
     t.string "p256dh", null: false
     t.string "auth", null: false
+    t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_webpush_subscriptions_on_user_id"

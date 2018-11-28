@@ -1,0 +1,38 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>タイトル:</strong>
+  <%= @message.title %>
+</p>
+
+<p>
+  <strong>メッセージ:</strong>
+  <%= @message.message %>
+</p>
+
+<p>
+  <strong>クリック時の遷移先リンク:</strong>
+  <%= @message.link %>
+</p>
+
+<p>
+  <strong>送信予約日時:</strong>
+  <%= @message.send_reservation_at %>
+</p>
+
+<p>
+  <strong>Created At:</strong>
+  <%= @message.created_at %>
+</p>
+
+<p>
+  <strong>Updated At:</strong>
+  <%= @message.updated_at %>
+</p>
+
+<p>
+  <%= button_to "WEB プッシュ送信", {controller: 'messages', action: 'show'}, {method: :post} %>
+</p>
+
+<%= link_to 'Edit', edit_message_path(@message) %> |
+<%= link_to 'Back', messages_path %>

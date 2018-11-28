@@ -1,0 +1,43 @@
+<p id="notice"><%= notice %></p>
+
+<header>
+  <h1>Web プッシュ送信メッセージ一覧</h1>
+</header>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>タイトル</th>
+      <th>メッセージ</th>
+      <th>クリック時の遷移先リンク</th>
+      <th>送信予約日時</th>
+      <th>ステータス (0:未送信 1:送信済み)</th>
+      <th>Created At</th>
+      <th>Updated At</th>
+      <th colspan="5"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @messages.each do |message| %>
+      <tr>
+        <td><%= message.id %></td>
+        <td><%= message.title %></td>
+        <td><%= message.message %></td>
+        <td><%= message.link %></td>
+        <td><%= message.send_reservation_at %></td>
+        <td><%= message.status %></td>
+        <td><%= message.created_at %></td>
+        <td><%= message.updated_at %></td>
+        <td><%= link_to 'Show', message %></td>
+        <td><%= link_to 'Edit', edit_message_path(message) %></td>
+        <td><%= link_to 'Destroy', message, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Message', new_message_path %>
