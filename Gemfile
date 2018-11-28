@@ -13,6 +13,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'jquery-rails'
 gem 'mysql2'
 gem 'puma'
+gem 'redis'
 gem 'sass-rails'
 gem 'sorcery'
 gem 'uglifier'

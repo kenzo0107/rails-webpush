@@ -14,13 +14,22 @@ services:
       - node_modules:/usr/src/app/node_modules
     links:
       - db
+      - redis
     depends_on:
       - db
+      - redis
     environment:
+      RAILS_REDIS_HOST: redis
+      RAILS_REDIS_PORT: 6379
       WEBPACKER_DEV_SERVER_HOST: 0.0.0.0
     # NOTE: 下記はbinding.pryをしたときに docker attach して入力するために必要な設定
     tty: true
     stdin_open: true
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
 
   db:
     image: mariadb

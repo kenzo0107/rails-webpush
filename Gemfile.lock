@@ -135,6 +135,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
+    redis (4.0.3)
     rubocop (0.60.0)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
@@ -200,6 +201,7 @@ DEPENDENCIES
   mysql2
   puma
   rails (~> 5.2)
+  redis
   rubocop
   sass-rails
   serviceworker-rails
