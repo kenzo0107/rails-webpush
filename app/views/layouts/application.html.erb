@@ -21,20 +21,9 @@
   </head>
 
   <body>
-    <div id="nav">
-      <% if current_user %>
-        ユーザ: <%= link_to current_user.email, edit_user_path(current_user.id) %>
-        <%= link_to 'ログアウト', :logout, method: :post %>
-      <% else %>
-        <%= link_to 'ユーザ登録', new_user_path %> |
-        <%= link_to 'ログイン', :login %>
-      <% end %>
-    </div>
-    <div>
-      <p id="notice"><%= flash[:notice] %></p>
-      <p id="alert"><%= flash[:alert] %></p>
+    <div class="container">      
+      <%= yield %>
     </div>
 
-    <%= yield %>
   </body>
 </html>
