@@ -4,7 +4,7 @@
   <h1>Web プッシュ送信メッセージ一覧</h1>
 </header>
 
-<table>
+<table class="table table-bordered table-hover table-striped">
   <thead>
     <tr>
       <th>ID</th>
@@ -30,9 +30,9 @@
         <td><%= message.status %></td>
         <td><%= message.created_at %></td>
         <td><%= message.updated_at %></td>
-        <td><%= link_to 'Show', message %></td>
-        <td><%= link_to 'Edit', edit_message_path(message) %></td>
-        <td><%= link_to 'Destroy', message, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', message, class: "btn btn-mini btn-primary" %></td>
+        <td><%= link_to 'Edit', edit_message_path(message), class: "btn btn-mini btn-success" %></td>
+        <td><%= link_to 'Destroy', message, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-mini btn-danger" %></td>
       </tr>
     <% end %>
   </tbody>
@@ -40,4 +40,4 @@
 
 <br>
 
-<%= link_to 'New Message', new_message_path %>
+<%= link_to 'New Message', new_message_path, class: "btn btn-mini btn-info" %>

@@ -21,6 +21,11 @@
 </p>
 
 <p>
+  <strong>ステータス:</strong>
+  <%= @message.status %>
+</p>
+
+<p>
   <strong>Created At:</strong>
   <%= @message.created_at %>
 </p>
@@ -31,8 +36,13 @@
 </p>
 
 <p>
-  <%= button_to "WEB プッシュ送信", {controller: 'messages', action: 'show'}, {method: :post} %>
+  <%= button_to("WEB プッシュ送信", {controller: 'messages', action: 'show', method: :post}, class: "btn btn-lg btn-danger") %>
 </p>
 
-<%= link_to 'Edit', edit_message_path(@message) %> |
-<%= link_to 'Back', messages_path %>
+<p>
+  <%= button_to("[テストユーザ向け] WEB プッシュ送信", {controller: 'messages', action: 'show', method: :post}, class: "btn btn-lg btn-success") %>
+</p>
+
+
+<%= link_to 'Edit', edit_message_path(@message), class: "btn btn-lg btn-warning" %> |
+<%= link_to 'Back', messages_path, class: "btn btn-lg btn-primary" %>

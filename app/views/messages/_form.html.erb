@@ -1,4 +1,4 @@
-<%= form_with(model: message, local: true) do |form| %>
+<%= form_for(@message) do |form| %>
   <% if message.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(message.errors.count, "error") %> prohibited this message from being saved:</h2>
@@ -11,32 +11,44 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title, size:100 %>
-  </div>
+  <table class="table table-bordered table-hover table-striped">
+    <thead>
+      <tr>
+        <th><%= form.label :title %></th>
+        <th><%= form.text_field :title, size:100 %></th>
+      </tr>
+    </thead>
 
-  <div class="field">
-    <%= form.label :message %>
-    <%= form.text_field :message, size:100 %>
-  </div>
+    <thead>
+      <tr>
+        <th><%= form.label :message %></th>
+        <th><%= form.text_field :message, size:100 %></th>
+      </tr>
+    </thead>
 
-  <div class="field">
-    <%= form.label :link %>
-    <%= form.text_field :link, size:100 %>
-  </div>
+    <thead>
+      <tr>
+        <th><%= form.label :link %></th>
+        <th><%= form.text_field :link, size:100 %></th>
+      </tr>
+    </thead>
 
-  <div class="field">
-    <%= form.label :send_reservation_at %>
-    <%= form.datetime_field :send_reservation_at %>
-  </div>
+    <thead>
+      <tr>
+        <th><%= form.label :send_reservation_at %></th>
+        <th><%= form.text_field :send_reservation_at, size:100 %></th>
+      </tr>
+    </thead>
 
-  <div class="field">
-    <%= form.label :status %>
-    <%= form.text_field :status %>
-  </div>
+    <thead>
+      <tr>
+        <th><%= form.label :status %></th>
+        <th><%= form.text_field :status, size:100 %></th>
+      </tr>
+    </thead>
+  </table>
 
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+  <p>
+    <%= form.submit '更新する', class: "btn btn-primary px-5" %>
+  </p>
 <% end %>

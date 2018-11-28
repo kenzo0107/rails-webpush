@@ -10,6 +10,8 @@ end
 gem 'rails', '~> 5.2'
 
 gem 'bootsnap', '>= 1.1.0', require: false
+gem 'bootstrap'
+gem 'font-awesome-sass'
 gem 'jquery-rails'
 gem 'mysql2'
 gem 'puma'
