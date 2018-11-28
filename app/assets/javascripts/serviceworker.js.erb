@@ -69,9 +69,9 @@ self.addEventListener('push', function(event){
   console.log(j);
 
   var title = j.title || '運営事務局';
-  var icon = j.icon || "<%= asset_path "icon.png" %>";
+  var icon = j.icon || "<%= image_path "icon.png" %>";
   var body = j.body;
-  var target_url = j.target_url || '/';
+  var link = j.link || '/';
   var tag = 'default-tag' + body;
   event.waitUntil(
     self.registration.showNotification(title, {
@@ -80,7 +80,7 @@ self.addEventListener('push', function(event){
       icon: icon,
       vibrate: [400,100,400], // ミリ秒単位で振動と休止の時間を交互に任意の回数だけ配列に格納
       data: {
-        url: target_url
+        link: link
       }
     })
   );
@@ -88,6 +88,21 @@ self.addEventListener('push', function(event){
 
 // 通知をクリックした時の処理
 self.addEventListener("notificationclick", function(event) {
-  var url = event.notification.data.url;
-  event.waitUntil(clients.openWindow(url));
+  event.notification.close();
+  var link = event.notification.data.link;
+  event.waitUntil(clients.matchAll({
+    type: "window"
+  }).then(function(clientList) {
+    for (var i = 0; i < clientList.length; i++) {
+      var client = clientList[i];
+      var regexp = new RegExp(link + '$');
+      var match = client.url.match(regexp);
+
+      if (match != null && 'focus' in client)
+        return client.focus();
+    }
+    if (clients.openWindow) {
+      return clients.openWindow(link);
+    }
+  }));
 });
