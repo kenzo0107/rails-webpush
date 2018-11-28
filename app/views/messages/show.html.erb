@@ -1,43 +1,49 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>タイトル:</strong>
-  <%= @message.title %>
-</p>
+<table class="table table-bordered table-hover table-striped">
+  <thead>
+    <tr>
+      <td>タイトル</td>
+      <td><%= @message.title %></td>
+    </tr>
 
-<p>
-  <strong>メッセージ:</strong>
-  <%= @message.message %>
-</p>
+    <tr>
+      <td>メッセージ</td>
+      <td><%= @message.message %></td>
+    </tr>
 
-<p>
-  <strong>クリック時の遷移先リンク:</strong>
-  <%= @message.link %>
-</p>
+    <tr>
+      <td>クリック時の遷移先リンク</td>
+      <td><%= @message.link %></td>
+    </tr>
 
-<p>
-  <strong>送信予約日時:</strong>
-  <%= @message.send_reservation_at %>
-</p>
+    <tr>
+      <td>送信予約日時</td>
+      <td><%= @message.send_reservation_at %></td>
+    </tr>
 
-<p>
-  <strong>ステータス:</strong>
-  <%= @message.status %>
-</p>
+    <tr>
+      <td>ステータス</td>
+      <td><%= @message.status %></td>
+    </tr>
 
-<p>
-  <strong>Created At:</strong>
-  <%= @message.created_at %>
-</p>
+    <tr>
+      <td>登録日時</td>
+      <td><%= @message.created_at %></td>
+    </tr>
 
-<p>
-  <strong>Updated At:</strong>
-  <%= @message.updated_at %>
-</p>
+    <tr>
+      <td>更新日時</td>
+      <td><%= @message.updated_at %></td>
+    </tr>
+  <thead>
+</table>
 
+<% if @message.status == 1 %>
 <p>
   <%= button_to("WEB プッシュ送信", {controller: 'messages', action: 'show', method: :post}, class: "btn btn-lg btn-danger") %>
 </p>
+<% end %>
 
 <p>
   <%= button_to("[テストユーザ向け] WEB プッシュ送信", {controller: 'messages', action: 'show', method: :post}, class: "btn btn-lg btn-success") %>
