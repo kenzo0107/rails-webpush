@@ -12,11 +12,12 @@ class WebpushService
   end
 
   def webpush(webpush_subscription, message)
+    if message.nil?
+      return
+    end
     vapid_public_key = Rails.application.credentials.dig(Rails.env.to_sym, :vapid_public_key)
     vapid_private_key = Rails.application.credentials.dig(Rails.env.to_sym, :vapid_private_key)
-
     Webpush.payload_send(
-      # message: message.to_json,
       endpoint: webpush_subscription.endpoint,
       p256dh: webpush_subscription.p256dh,
       auth: webpush_subscription.auth,
@@ -24,15 +25,17 @@ class WebpushService
       vapid: {
         public_key: vapid_public_key,
         private_key: vapid_private_key,
-        expiration: 12 * 60 * 60
+        expiration: 1 * 60 * 60
       },
       message: {
         icon: 'https://example.com/images/demos/icon-512x512.png',
         title: '運営事務局',
-        body: 'こんにちは',
-        target_url: '/article'
+        body: message,
+        target_url: 'http://localhost:8888/'
       }.to_json
     )
+  rescue Pusher::Error => e
+    logger.error e
   end
 
   private
