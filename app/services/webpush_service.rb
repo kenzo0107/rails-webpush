@@ -26,7 +26,6 @@ class WebpushService
     if @message.nil?
       return
     end
-    today = Time.zone.today
     webpush_subscriptions.each do |ws|
       res = webpush ws
       result = ['success', 'fail']
