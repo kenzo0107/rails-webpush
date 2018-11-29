@@ -24,7 +24,7 @@
 
     <tr>
       <td>ステータス</td>
-      <td><%= @message.status %></td>
+      <td><%= @message.status_text %></td>
     </tr>
 
     <tr>
@@ -39,16 +39,30 @@
   <thead>
 </table>
 
-<% if @message.status == 1 %>
+<% if @message.status.sent_test? %>
 <p>
-  <%= button_to("WEB プッシュ送信", {controller: 'messages', action: 'show', method: :post}, class: "btn btn-lg btn-danger") %>
+  <%= button_to("[リアルユーザ向け] WEB プッシュ送信", {controller: 'messages', action: 'show', method: :post, params: {status: 2}}, class: "btn btn-lg btn-danger") %>
 </p>
 <% end %>
 
 <p>
-  <%= button_to("[テストユーザ向け] WEB プッシュ送信", {controller: 'messages', action: 'show', method: :post}, class: "btn btn-lg btn-success") %>
+  <%= button_to("[テストユーザ向け] WEB プッシュ送信", {controller: 'messages', action: 'show', method: :post, params: {status: 1}}, class: "btn btn-lg btn-success") %>
 </p>
 
+<% if @message.status.sent_real_user? %>
+  <h4>ユーザ向け送信結果</h4>
+  <table class="table table-bordered table-hover table-striped">
+    <thead>
+      <tr>
+        <td>有効送信ユーザ数</td>
+        <td><%= @success_ids_count %></td>
+      </tr>
+      <tr>
+        <td>無効送信ユーザ数</td>
+        <td><%= @fail_ids_count %></td>
+    </thead>
+  </table>
+<% end %>
 
 <%= link_to 'Edit', edit_message_path(@message), class: "btn btn-lg btn-warning" %> |
 <%= link_to 'Back', messages_path, class: "btn btn-lg btn-primary" %>

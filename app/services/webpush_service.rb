@@ -5,6 +5,10 @@ class WebpushService
     @user_id = user_id
   end
 
+  def set_id(id)
+    @id = id
+  end
+
   def set_title(title)
     @title = title || '運営事務局'
   end
@@ -18,16 +22,20 @@ class WebpushService
   end
 
   def webpush_clients
-    webpush_subscriptions.each do |webpush_subscription|
-      webpush webpush_subscription
-    end
-  end
-
-  def webpush(webpush_subscription)
     # message が設定されてなければ、停止
     if @message.nil?
       return
     end
+    today = Time.zone.today
+    webpush_subscriptions.each do |ws|
+      res = webpush ws
+      result = ['success', 'fail']
+      # TODO sadd したい
+      redis.rpush "message/#{@id}/#{result[res]}", ws.id.to_s
+    end
+  end
+
+  def webpush(webpush_subscription)
     vapid_public_key = Rails.application.credentials.dig(Rails.env.to_sym, :vapid_public_key)
     vapid_private_key = Rails.application.credentials.dig(Rails.env.to_sym, :vapid_private_key)
     Webpush.payload_send(
@@ -47,8 +55,10 @@ class WebpushService
         link: @link
       }.to_json
     )
+    return 0
   rescue => e
     Rails.logger.error e
+    return 1
   end
 
   private
