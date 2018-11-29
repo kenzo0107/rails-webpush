@@ -5,8 +5,8 @@ class WebpushService
     @user_id = user_id
   end
 
-  def set_id(id)
-    @id = id
+  def set_message_id(message_id)
+    @message_id = message_id
   end
 
   def set_title(title)
@@ -31,7 +31,7 @@ class WebpushService
       res = webpush ws
       result = ['success', 'fail']
       # TODO sadd したい
-      redis.rpush "message/#{@id}/#{result[res]}", ws.id.to_s
+      redis.rpush "message/#{@message_id}/#{result[res]}", ws.id.to_s
     end
   end
 
@@ -46,13 +46,14 @@ class WebpushService
       vapid: {
         public_key: vapid_public_key,
         private_key: vapid_private_key,
-        expiration: 1 * 60 * 60
+        expiration: 1 * 60 * 60 # 有効期限 送信後、同じメッセージはこの有効期限まで再通知されない。
       },
       message: {
         icon: 'https://ishicome-cdn.medpeer.jp/assets/favicon/mstile-for-310x310-df4a2999d2241a9d3d6cf5070af29eb8a3081c6a417334bd68d96bc4b9425b4c.png',
         title: @title,
         body: @message,
-        link: @link
+        link: @link,
+        message_id: @message_id
       }.to_json
     )
     return 0

@@ -21,7 +21,7 @@ class MessagesController < ApplicationController
     if params['authenticity_token']
       m = Message.find(id)
       ws = WebpushService.new
-      ws.set_id m.id
+      ws.set_message_id m.id
       ws.set_title m.title
       ws.set_message m.message
       ws.set_link m.link
@@ -30,13 +30,13 @@ class MessagesController < ApplicationController
       if m.status.un_send? && params['status'].to_i == Message.status.sent_test.value
         m.status = Message.status.sent_test.value
         m.save
-        redirect_to(message_path, notice: 'WEBプッシュ送信しました')
+        redirect_to(message_path, notice: '[テストユーザ向け] WEBプッシュ送信しました')
       end
 
       if m.status.sent_test? && params['status'].to_i == Message.status.sent_real_user.value
         m.status = Message.status.sent_real_user.value
         m.save
-        redirect_to(message_path, notice: 'WEBプッシュ送信しました')
+        redirect_to(message_path, notice: '[リアルユーザ向け] WEBプッシュ送信しました')
       end
     end
   end
