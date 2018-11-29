@@ -43,7 +43,7 @@
     <thead>
       <tr>
         <th><%= form.label 'ステータス (0:未送信 1:テスト送信済み 2:ユーザ送信済み)' %></th>
-        <th><%= form.text_field :status %></th>
+        <th><%= form.select :status, Message.status.options, {}, class: 'form-control' %></th>
       </tr>
     </thead>
   </table>
