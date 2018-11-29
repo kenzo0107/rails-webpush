@@ -4,3 +4,9 @@ ja:
       email: メールアドレス
       password: パスワード
       password_confirmation: パスワード（確認用）
+  enumerize:
+    message:
+      status:
+        un_send: 未送信
+        sent_test: テスト送信済み
+        sent_real_user: リアルユーザ送信済み
