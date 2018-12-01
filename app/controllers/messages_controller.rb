@@ -80,18 +80,18 @@ class MessagesController < ApplicationController
   end
 
   def send_to_test_user
-    # TODO: テスト ユーザ ID 直指定をやめて別途テーブル管理したい。
-    ws = WebpushService.new 8
+    # TODO: テストユーザ メアド 直指定をやめて別途テーブル管理したい。
+    u = User.find_by(email: 'kenzo.tanaka@medpeer.co.jp')
+    ws = WebpushService.new u.id
     # 一斉送信メッセージ設定
     ws.broadcast_message @message
     # Web プッシュ送信
     ws.webpush_clients
 
-    if @message.status == Message.status.un_send.value
-      @message.status = Message.status.sent_test.value
-      @message.save
-    end
-    redirect_to(message_path, notice: '[テストユーザ向け] WEBプッシュ送信しました')
+    return unless @message.status.un_send?
+
+    @message.status = Message.status.sent_test.value
+    @message.save
   end
 
   def send_to_real_user
@@ -101,10 +101,9 @@ class MessagesController < ApplicationController
     # Web プッシュ送信
     ws.webpush_clients
 
-    if @message.status == Message.status.sent_test.value
-      @message.status = Message.status.sent_real_user.value
-      @message.save
-    end
-    redirect_to(message_path, notice: '[リアルユーザ向け] WEBプッシュ送信しました')
+    return unless @message.status.sent_test?
+
+    @message.status = Message.status.sent_real_user.value
+    @message.save
   end
 end
