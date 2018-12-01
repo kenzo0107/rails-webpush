@@ -18,22 +18,27 @@ class MessagesController < ApplicationController
     # TODO: POST の判定はきっとこれじゃないと思うので、後々調整
     return if params['authenticity_token'].nil?
 
-    ws = WebpushService.new
-    # 一斉送信メッセージ設定
-    ws.broadcast_message @message
-    # Web プッシュ送信
-    ws.webpush_clients
-
     # TODO: Metrics/AbcSize 対応せねば
     case [@message.status, params['status'].to_i]
     when [Message.status.un_send.value, Message.status.sent_test.value]
       # 未送信状態でテスト送信した場合
+      # TODO: テスト ユーザ ID 直指定をやめて別途テーブル管理したい。
+      ws = WebpushService.new 8
+      # 一斉送信メッセージ設定
+      ws.broadcast_message @message
+      # Web プッシュ送信
+      ws.webpush_clients
       @message.status = Message.status.sent_test.value
       @message.save
       redirect_to(message_path, notice: '[テストユーザ向け] WEBプッシュ送信しました')
       return
     when [Message.status.sent_test.value, Message.status.sent_real_user.value]
       # テスト送信済みでリアルユーザ送信した場合
+      ws = WebpushService.new
+      # 一斉送信メッセージ設定
+      ws.broadcast_message @message
+      # Web プッシュ送信
+      ws.webpush_clients
       @message.status = Message.status.sent_real_user.value
       @message.save
       redirect_to(message_path, notice: '[リアルユーザ向け] WEBプッシュ送信しました')
