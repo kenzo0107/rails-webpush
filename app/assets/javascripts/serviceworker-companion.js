@@ -23,7 +23,7 @@ if ('serviceWorker' in navigator && 'PushManager' in window) {
     });
 } else {
   console.warn('Push messaging is not supported');
-  pushButton.textContent = 'Push Not Supported';
+  pushButton.textContent = 'お客様のブラウザはプッシュ通知をサポートしておりません';
 }
 
 function initialiseUI() {
@@ -57,7 +57,6 @@ function initialiseUI() {
 }
 
 function subscribeUser() {
-  // const applicationServerKey = urlB64ToUint8Array(applicationServerPublicKey);
   swRegistration.pushManager.subscribe({
     userVisibleOnly: true,
     applicationServerKey: applicationServerKey
