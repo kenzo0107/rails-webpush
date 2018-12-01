@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class MessagesController < ApplicationController
-  before_action :set_message, only: [:show, :edit, :update, :destroy]
+  before_action :set_message, only: %i[show edit update destroy]
   skip_before_action :require_login
 
   # GET /messages
@@ -9,35 +11,32 @@ class MessagesController < ApplicationController
 
   # GET /messages/1
   def show
-    success_ids = redis.lrange "message/#{params[:id]}/success", 0, -1
-    fail_ids = redis.lrange "message/#{params[:id]}/fail", 0, -1
-    success_ids = success_ids.uniq
-    fail_ids = fail_ids.uniq
+    id = @message.id
+    # 集計
+    collect_metrics(id)
 
-    @success_ids_count = success_ids.uniq.length
-    @fail_ids_count = fail_ids.uniq.length
+    return if params['authenticity_token'].nil?
 
-    id = params['id']
-    if params['authenticity_token']
-      m = Message.find(id)
-      ws = WebpushService.new
-      ws.set_message_id m.id
-      ws.set_title m.title
-      ws.set_message m.message
-      ws.set_link m.link
-      ws.webpush_clients
+    ws = WebpushService.new
+    # 一斉送信メッセージ設定
+    ws.broadcast_message @message
+    # Web プッシュ送信
+    ws.webpush_clients
 
-      if m.status.un_send? && params['status'].to_i == Message.status.sent_test.value
-        m.status = Message.status.sent_test.value
-        m.save
-        redirect_to(message_path, notice: '[テストユーザ向け] WEBプッシュ送信しました')
-      end
-
-      if m.status.sent_test? && params['status'].to_i == Message.status.sent_real_user.value
-        m.status = Message.status.sent_real_user.value
-        m.save
-        redirect_to(message_path, notice: '[リアルユーザ向け] WEBプッシュ送信しました')
-      end
+    # TODO: Metrics/AbcSize 対応せねば
+    case [@message.status, params['status'].to_i]
+    when [Message.status.un_send.value, Message.status.sent_test.value]
+      # 未送信状態でテスト送信した場合
+      @message.status = Message.status.sent_test.value
+      @message.save
+      redirect_to(message_path, notice: '[テストユーザ向け] WEBプッシュ送信しました')
+      return
+    when [Message.status.sent_test.value, Message.status.sent_real_user.value]
+      # テスト送信済みでリアルユーザ送信した場合
+      @message.status = Message.status.sent_real_user.value
+      @message.save
+      redirect_to(message_path, notice: '[リアルユーザ向け] WEBプッシュ送信しました')
+      return
     end
   end
 
@@ -47,8 +46,7 @@ class MessagesController < ApplicationController
   end
 
   # GET /messages/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /messages
   def create
@@ -77,14 +75,22 @@ class MessagesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_message
-      @message = Message.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def message_params
-      params.fetch(:message, {})
-      params.require(:message).permit(:title, :message, :link, :send_reservation_at, :status)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_message
+    @message = Message.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def message_params
+    params.fetch(:message, {})
+    params.require(:message).permit(:title, :message, :link, :send_reservation_at, :status)
+  end
+
+  def collect_metrics(id)
+    success_ids = redis.lrange "message/#{id}/success", 0, -1
+    fail_ids = redis.lrange "message/#{id}/fail", 0, -1
+    @success_ids_count = success_ids.uniq.length
+    @fail_ids_count = fail_ids.uniq.length
+  end
 end
