@@ -15,6 +15,7 @@ class MessagesController < ApplicationController
     # 集計
     collect_metrics(id)
 
+    # TODO: POST の判定はきっとこれじゃないと思うので、後々調整
     return if params['authenticity_token'].nil?
 
     ws = WebpushService.new
