@@ -11,22 +11,32 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :email %>
-    <%= form.text_field :email %>
-  </div>
+  <table class="table table-bordered table-hover table-striped">
+    <thead>
+      <tr>
+        <td><%= form.label :email %></td>
+        <td><%= form.text_field :email %></td>
+      </tr>
 
-  <div class="field">
-    <%= form.label :password %>
-    <%= form.password_field :password %>
-  </div>
+      <tr>
+        <td><%= form.label :password %></td>
+        <td><%= form.text_field :password %></td>
+      </tr>
 
-  <div class="field">
-    <%= form.label :password_confirmation %>
-    <%= form.password_field :password_confirmation %>
-  </div>
+      <tr>
+        <td><%= form.label :password_confirmation %></td>
+        <td><%= form.text_field :password_confirmation %></td>
+      </tr>
+    </thead>
 
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+    <tr>
+      <td>
+        <div class="actions">
+          <%= form.submit %>
+        </div>
+      </td>
+    </tr>
+  </table>
+
+
 <% end %>

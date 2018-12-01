@@ -1,25 +1,26 @@
-<header>
-  <h1>Topページ</h1>
-</header>
+<h1>俺の Web Push トップページ</h1>
 
-<main>
-  <p>Welcome to the web push demo site.</p>
+<p>Welcome to the web push demo site.</p>
 
-  <p><a target="_blank" href="https://www.google.co.jp/amp/s/webtan.impress.co.jp/e/2017/03/14/25259%3famp">Webプッシュ通知の無差別な許可リクエストや送信、そんなロクデモナイもの世の中から撲滅すべきだ</a></p>
-  <p><a target="_blakn" href="https://pushnate.com/labs/webpush/google-analytics-webpush">Google Analyticsを利用してWebプッシュ通知の効果を測定する</a></p>
-  <p><%= link_to "記事ページ", {:controller => 'article', :action => 'index'}, class: "btn btn-mini btn-info" %></p>
 
-  <div id="nav">
-    <% if current_user %>
-      ログインユーザ: <%= link_to current_user.email, edit_user_path(current_user.id) %>
-      <%= link_to 'ログアウト', :logout, method: :post %>
-    <% else %>
-      <%= link_to 'ユーザ登録', new_user_path %> |
-      <%= link_to 'ログイン', :login %>
-    <% end %>
-  </div>
-  <div>
-    <p id="notice"><%= flash[:notice] %></p>
-    <p id="alert"><%= flash[:alert] %></p>
-  </div>
-</main>
+<p>Topic !</p>
+<ul>
+  <li><a target="_blank" href="https://www.google.co.jp/amp/s/webtan.impress.co.jp/e/2017/03/14/25259%3famp">Webプッシュ通知の無差別な許可リクエストや送信、そんなロクデモナイもの世の中から撲滅すべきだ</a></li>
+  <li><a target="_blakn" href="https://pushnate.com/labs/webpush/google-analytics-webpush">Google Analyticsを利用してWebプッシュ通知の効果を測定する</a></li>
+</ul>
+
+<p><%= link_to "記事ページ", {:controller => 'article', :action => 'index'}, class: "btn btn-mini btn-info" %></p>
+
+<div id="nav">
+  <% if current_user %>
+    ログインユーザ: <%= link_to current_user.email, edit_user_path(current_user.id) %>
+    <%= link_to 'ログアウト', :logout, method: :post %>
+  <% else %>
+    <%= link_to 'ユーザ登録', new_user_path %> |
+    <%= link_to 'ログイン', :login %>
+  <% end %>
+</div>
+<div>
+  <p id="notice"><%= flash[:notice] %></p>
+  <p id="alert"><%= flash[:alert] %></p>
+</div>

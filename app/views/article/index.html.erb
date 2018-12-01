@@ -5,8 +5,8 @@
 <p>プッシュ通知を有効にしてみませんか？</p>
 <p>こんなメリットがあります。</p>
 <ul>
-<li>登録した講演会の予約時間 10分前に 通知を受け取ることができます。</li>
-<li>投稿したコメントに他ユーザ様よりコメントがついた際に、通知を受け取ることができます。</li>
+  <li>登録した講演会の予約時間 10分前に 通知を受け取ることができます。</li>
+  <li>投稿したコメントに他ユーザ様よりコメントがついた際に、通知を受け取ることができます。</li>
 </ul>
 <p>
   <button disabled class="js-push-btn mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
@@ -14,6 +14,19 @@
   </button>
 </p>
 
+<hr>
+
+<h4>システム的な話</h4>
+<ul>
+  <li>プッシュ通知の購読の許可/拒否情報はブラウザに保存してます。</li>
+  <li>プッシュ通知の購読の許可時、サーバ側に許可時に発行される認証情報を渡してます。サーバ側にそれがないと Web プッシュできません。</li>
+  <li>なので、サーバ側に許可情報発行中にブラウザを落としたり、サーバ側で正しく登録できないと、ユーザは有効にしたのに、プッシュ通知を受け取れません。</li>
+  <li>そんな時は、再登録していただく必要があります。一度無効にして、再度有効にします。</li>
+</ul>
+
 <section class="subscription-details js-subscription-details is-invisible">
   <pre><code class="js-subscription-json"></code></pre>
 </section>
+
+
+<p><%= link_to "Web プッシュ メッセージ一覧", {:controller => 'messages', :action => 'index'}, class: "btn btn-mini btn-info" %></p>
