@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class WebpushService
-  def initialize(user_id: nil)
+  def initialize(user_id = nil)
     @user_id = user_id
   end
 
@@ -43,6 +43,7 @@ class WebpushService
     )
     0
   rescue => e
+    # TODO: error 発生時の Class 指定 gem 'pusher' でできそう
     Rails.logger.error e
     1
   end

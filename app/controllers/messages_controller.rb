@@ -12,38 +12,17 @@ class MessagesController < ApplicationController
   # GET /messages/1
   def show
     id = @message.id
-    # 集計
+    # プッシュ通知送信結果 集計
     collect_metrics(id)
 
     # TODO: POST の判定はきっとこれじゃないと思うので、後々調整
     return if params['authenticity_token'].nil?
 
-    # TODO: Metrics/AbcSize 対応せねば
-    case [@message.status, params['status'].to_i]
-    when [Message.status.un_send.value, Message.status.sent_test.value]
-      # 未送信状態でテスト送信した場合
-      # TODO: テスト ユーザ ID 直指定をやめて別途テーブル管理したい。
-      ws = WebpushService.new 8
-      # 一斉送信メッセージ設定
-      ws.broadcast_message @message
-      # Web プッシュ送信
-      ws.webpush_clients
-      @message.status = Message.status.sent_test.value
-      @message.save
-      redirect_to(message_path, notice: '[テストユーザ向け] WEBプッシュ送信しました')
-      return
-    when [Message.status.sent_test.value, Message.status.sent_real_user.value]
-      # テスト送信済みでリアルユーザ送信した場合
-      ws = WebpushService.new
-      # 一斉送信メッセージ設定
-      ws.broadcast_message @message
-      # Web プッシュ送信
-      ws.webpush_clients
-      @message.status = Message.status.sent_real_user.value
-      @message.save
-      redirect_to(message_path, notice: '[リアルユーザ向け] WEBプッシュ送信しました')
-      return
-    end
+    # テストユーザ向け送信
+    send_to_test_user if params['status'].to_i == Message.status.sent_test.value
+
+    # テスト送信済みでリアルユーザ送信ボタン押下時のみ送信
+    send_to_real_user if @message.status.sent_test? && params['status'].to_i != Message.status.sent_real_user.value
   end
 
   # GET /messages/new
@@ -98,5 +77,34 @@ class MessagesController < ApplicationController
     fail_ids = redis.lrange "message/#{id}/fail", 0, -1
     @success_ids_count = success_ids.uniq.length
     @fail_ids_count = fail_ids.uniq.length
+  end
+
+  def send_to_test_user
+    # TODO: テスト ユーザ ID 直指定をやめて別途テーブル管理したい。
+    ws = WebpushService.new 8
+    # 一斉送信メッセージ設定
+    ws.broadcast_message @message
+    # Web プッシュ送信
+    ws.webpush_clients
+
+    if @message.status == Message.status.un_send.value
+      @message.status = Message.status.sent_test.value
+      @message.save
+    end
+    redirect_to(message_path, notice: '[テストユーザ向け] WEBプッシュ送信しました')
+  end
+
+  def send_to_real_user
+    ws = WebpushService.new
+    # 一斉送信メッセージ設定
+    ws.broadcast_message @message
+    # Web プッシュ送信
+    ws.webpush_clients
+
+    if @message.status == Message.status.sent_test.value
+      @message.status = Message.status.sent_real_user.value
+      @message.save
+    end
+    redirect_to(message_path, notice: '[リアルユーザ向け] WEBプッシュ送信しました')
   end
 end
