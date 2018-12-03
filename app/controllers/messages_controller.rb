@@ -22,7 +22,7 @@ class MessagesController < ApplicationController
     send_to_test_user if params['status'].to_i == Message.status.sent_test.value
 
     # テスト送信済みでリアルユーザ送信ボタン押下時のみ送信
-    send_to_real_user if @message.status.sent_test? && params['status'].to_i != Message.status.sent_real_user.value
+    send_to_real_user if @message.status.sent_test? && params['status'].to_i == Message.status.sent_real_user.value
   end
 
   # GET /messages/new
